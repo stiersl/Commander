@@ -1,23 +1,31 @@
 using System.Collections.Generic;
 using Commander.Models;
+using Microsoft.Extensions.Logging;
 
-namespace Commander.Data{
+namespace Commander.Data
+{
   public class MockCommanderRepo : ICommanderRepo
   {
-    public IEnumerable<Command> GetAppCommands()
+    #region Variables
+    private readonly List<Command> _commands;
+    private readonly ILogger<MockCommanderRepo> _logger;
+    #endregion
+    public MockCommanderRepo()
     {
-      var commands = new List<Command>
-      {
-        new Command{Id = 0, HowTo="Boil an Egg", Line="Boil Water", Platform="Kettle & Pan"},
-        new Command{Id = 1, HowTo="Fry an Egg", Line="Oil pad add Egg", Platform="Kettle & Pan"},
-        new Command{Id = 2, HowTo="Scramble an Egg", Line="oil pan and add mixed egg", Platform="Kettle & Pan"}
-      };
-      return commands;
+      _commands = new List<Command> {
+        new Command { Id = 0, HowTo = "create a directory", Line = "mkdir", Platform = "Linux" },
+        new Command { Id = 1, HowTo = "Show all files in the directory", Line = "ls", Platform = "Linux" },
+        new Command { Id = 2, HowTo = "Build docker containers", Line = "Docker-compose build", Platform = "Docker compose" }
+    };
+    }
+    public List<Command> GetAllCommands()
+    {
+      return _commands;
     }
 
     public Command GetCommandById(int id)
     {
-      return new Command{Id = 0, HowTo="Boil an Egg", Line="Boil Water", Platform="Kettle & Pan"};
+      return _commands.Find(item => item.Id == id);
     }
   }
 }
