@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Serialization;
 
 namespace Commander
 {
@@ -32,7 +33,12 @@ namespace Commander
       // create our DbContext Service here using our Command
       services.AddDbContext<CommanderDBContext>(Opt => Opt.UseSqlServer
           (Configuration.GetConnectionString("CommanderDBConnection")));
-      services.AddControllers();
+      
+      //added newtonsoft json resolvever- to support patches 
+      services.AddControllers().AddNewtonsoftJson(s => {s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+      });
+      // add a service for automapping to make it availiable to other parts of our app.
+      services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
       // here were doing the depency intection. if anyone requests data 
       // from ICommanderRespo acutally use mapping here
       //services.AddScoped<ICommanderRepo, MockCommanderRepo>();

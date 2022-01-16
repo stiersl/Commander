@@ -16,6 +16,17 @@ namespace Commander.Data
         new Command { Id = 2, HowTo = "Build docker containers", Line = "Docker-compose build", Platform = "Docker compose" }
       };
     }
+
+    public void CreateCommand(Command cmd)
+    {
+      _commands.Add(cmd);
+    }
+
+    public void DeleteCommand(Command cmd)
+    {
+      _commands.Remove(cmd);
+    }
+
     public List<Command> GetAllCommands()
     {
       return _commands;
@@ -24,6 +35,16 @@ namespace Commander.Data
     public Command GetCommandById(int id)
     {
       return _commands.Find(item => item.Id == id);
+    }
+
+    public bool SaveChanges()
+    {
+      return true;
+    }
+
+    public void UpdateCommand(Command cmd)
+    {
+      throw new System.NotImplementedException();
     }
   }
 }

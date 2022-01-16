@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Commander.Models;
@@ -15,6 +16,26 @@ namespace Commander.Data
         _DBcontext = DBcontext;
         }
 
+    public void CreateCommand(Command cmd)
+    {
+      if (cmd == null)
+      {
+        throw new ArgumentNullException(nameof(cmd));
+      }
+      // add the command to the db
+      _DBcontext.Commands.Add(cmd);
+    }
+
+    public void DeleteCommand(Command cmd)
+    {
+      if (cmd == null)
+      {
+        throw new ArgumentNullException(nameof(cmd));
+      }
+      // add the command to the db
+      _DBcontext.Commands.Remove(cmd);
+    }
+
     public List<Command> GetAllCommands()
     {
       return _DBcontext.Commands.ToList();
@@ -23,6 +44,16 @@ namespace Commander.Data
     public Command GetCommandById(int id)
     {
       return _DBcontext.Commands.FirstOrDefault(item => item.Id == id);
+    }
+
+    public bool SaveChanges()
+    {
+      return (_DBcontext.SaveChanges() >= 0);
+    }
+
+    public void UpdateCommand(Command cmd)
+    {
+      //nothing.
     }
   }
 }
