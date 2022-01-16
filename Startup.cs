@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Commander.Data;
+using Commander.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -27,12 +29,14 @@ namespace Commander
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-
+      // create our DbContext Service here using our Command
+      services.AddDbContext<CommanderDBContext>(Opt => Opt.UseSqlServer
+          (Configuration.GetConnectionString("CommanderDBConnection")));
       services.AddControllers();
       // here were doing the depency intection. if anyone requests data 
-      // from ICommanderRespo acutally use MockCommanderRepo
-      services.AddScoped<ICommanderRepo, MockCommanderRepo>();
-
+      // from ICommanderRespo acutally use mapping here
+      //services.AddScoped<ICommanderRepo, MockCommanderRepo>();
+      services.AddScoped<ICommanderRepo, SqlCommanderRepo>();
       services.AddSwaggerGen(c =>
       {
         c.SwaggerDoc("v1", new OpenApiInfo { Title = "Commander", Version = "v1" });

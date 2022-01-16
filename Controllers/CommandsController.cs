@@ -22,7 +22,7 @@ namespace Commander.Contollers
     private readonly ILogger<CommandsController> _logger;
     #endregion
     #region Constructor
-    /* Constructor for this class. Setting itself up. here were pointing our repository to Interface repo. In the startup class we will indicate which class is actually used via dependancy injection. */
+    /* Constructor for this class. Setting itself up. here were pointing our repository to Interface repo. In the startup class we will indicate which class is actually used via dependancy injection. use dependay injection with repositories*/
     public CommandsController(ICommanderRepo repository, ILogger<CommandsController> logger)
     {
       _repository = repository;
@@ -40,18 +40,18 @@ namespace Commander.Contollers
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    public ActionResult<List<Command>> GetAllCommands()
+    public ActionResult<IEnumerable<Command>> GetAllCommands()
     {
       _logger.LogInformation("Starting GetAllCommands()");
       try
       {
-        List<Command> commandItems = _repository.GetAllCommands();
+        IEnumerable<Command> commandItems = _repository.GetAllCommands();
         // check if a command was found
         if (commandItems == null)
         {
           return NotFound();
         }
-        _logger.LogInformation("Sent {0} commands", commandItems.Count);
+        //_logger.LogInformation("Sent {0} commands", commandItems.Count);
         return Ok(commandItems);
       }
       catch (Exception ex)

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Commander.Models;
-using Microsoft.Extensions.Logging;
 
 namespace Commander.Data
 {
@@ -8,7 +7,6 @@ namespace Commander.Data
   {
     #region Variables
     private readonly List<Command> _commands;
-    private readonly ILogger<MockCommanderRepo> _logger;
     #endregion
     public MockCommanderRepo()
     {
@@ -16,7 +14,7 @@ namespace Commander.Data
         new Command { Id = 0, HowTo = "create a directory", Line = "mkdir", Platform = "Linux" },
         new Command { Id = 1, HowTo = "Show all files in the directory", Line = "ls", Platform = "Linux" },
         new Command { Id = 2, HowTo = "Build docker containers", Line = "Docker-compose build", Platform = "Docker compose" }
-    };
+      };
     }
     public List<Command> GetAllCommands()
     {
